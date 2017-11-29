@@ -1,13 +1,11 @@
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -76,18 +74,7 @@ class Creator {
 	}
 
 	private void loop() {
-		GL.createCapabilities();
-		glClearColor(0,0,0,0);
-		glEnable(GL_TEXTURE_2D);
-
-		while (!glfwWindowShouldClose(this.window)) {
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-			this.loopHandler.go();
-
-			glfwSwapBuffers(this.window);
-			glfwPollEvents();
-		}
+		this.loopHandler.go();
 	}
 
 	private void handleKeyPresses(long window, int key, int scanCode, int action, int mods) {
