@@ -2,12 +2,8 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
 
-import static org.lwjgl.glfw.GLFW.glfwPollEvents;
-import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
-import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 
 public class LoopHandler {
 	private long window;
@@ -39,21 +35,50 @@ public class LoopHandler {
 		projection.mul(scale, target);
 		camera.setPosition(new Vector3f(-100, 0, 0));
 
+		double frameCap = 1.0 / 60.0;
+		double time = Timer.getTime();
+		double unprocessed = 0;
+		double frameTime = 0;
+		int frames = 0;
+
 		while (!glfwWindowShouldClose(this.window)) {
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			target = scale;
+			boolean canRender = false;
 
-			shader.bind();
-			shader.setUniform("sampler", 0);
-			shader.setUniform("projection", camera.getProjection().mul(target));
-			textureTexture.bind(0);
+			double time2 = Timer.getTime();
+			double passed = time2 - time;
+			unprocessed += passed;
+			frameTime += passed;
 
+			time = time2;
 
-			model.render();
+			// Update code
+			while (unprocessed >= frameCap) {
+				unprocessed -= frameCap;
+				canRender = true;
 
+				target = scale;
+				glfwPollEvents();
 
-			glfwSwapBuffers(this.window);
-			glfwPollEvents();
+				if (frameTime >= 1.0) {
+					frameTime = 0;
+					System.out.println("FPS: " + frames);
+					frames = 0;
+				}
+			}
+
+			// Render code
+			if (canRender) {
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+				shader.bind();
+				shader.setUniform("sampler", 0);
+				shader.setUniform("projection", camera.getProjection().mul(target));
+				textureTexture.bind(0);
+				model.render();
+
+				glfwSwapBuffers(this.window);
+				frames++;
+			}
 		}
 	}
 }
