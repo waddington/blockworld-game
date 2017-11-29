@@ -48,7 +48,7 @@ class Creator {
 		if (this.isFullScreen) {
 			this.window = glfwCreateWindow(this.vidMode.width(), this.vidMode.height(), "Hello World!", this.primaryMonitor, NULL);
 		} else {
-			this.window = glfwCreateWindow(800, 600, "Hello World!", NULL, NULL);
+			this.window = glfwCreateWindow(640, 480, "Hello World!", NULL, NULL);
 		}
 
 		this.loopHandler = new LoopHandler(this.window);

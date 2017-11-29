@@ -1,3 +1,4 @@
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
@@ -27,13 +28,22 @@ public class LoopHandler {
 		Model model = new Model(vertices, texture, indices);
 		Shader shader = new Shader("shader");
 
-//		Texture textureTexture = new Texture("./res/smiley.png");
+		Texture textureTexture = new Texture("./res/smiley.png");
+		Matrix4f projection = new Matrix4f().ortho2D(-640/2, 640/2, -480/2, 480/2);
+		Matrix4f scale = new Matrix4f().scale(320);
+		Matrix4f target = new Matrix4f();
+
+		projection.mul(scale, target);
 
 		while (!glfwWindowShouldClose(this.window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//			textureTexture.bind();
 			shader.bind();
+			shader.setUniform("sampler", 0);
+			shader.setUniform("projection", target);
+			textureTexture.bind(0);
+
+
 			model.render();
 
 

@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 public class Texture {
 	private int id;
@@ -53,7 +55,11 @@ public class Texture {
 		}
 	}
 
-	public void bind() {
-		glBindTexture(GL_TEXTURE_2D, this.id);
+	public void bind(int sampler) {
+
+		if (sampler >= 0 && sampler <= 31) {
+			glActiveTexture(GL_TEXTURE0 + sampler);
+			glBindTexture(GL_TEXTURE_2D, this.id);
+		}
 	}
 }

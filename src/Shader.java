@@ -1,7 +1,11 @@
+import org.joml.Matrix4f;
+import org.lwjgl.BufferUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL20.*;
 
@@ -35,6 +39,7 @@ public class Shader {
 		glAttachShader(this.program, this.fs);
 
 		glBindAttribLocation(this.program, 0, "vertices");
+		glBindAttribLocation(this.program, 1, "textures");
 
 		glLinkProgram(this.program);
 		if (glGetProgrami(this.program, GL_LINK_STATUS) != 1) {
@@ -73,4 +78,24 @@ public class Shader {
 	public void bind() {
 		glUseProgram(this.program);
 	}
+
+	public void setUniform(String name, int value) {
+		int location = glGetUniformLocation(this.program, name);
+
+		if (location != -1) {
+			glUniform1i(location, value);
+		}
+	}
+
+	public void setUniform(String name, Matrix4f value) {
+		int location = glGetUniformLocation(this.program, name);
+		FloatBuffer floatBuffer = BufferUtils.createFloatBuffer(16);
+		value.get(floatBuffer);
+
+		if (location != -1) {
+			glUniformMatrix4fv(location, false, floatBuffer);
+		}
+	}
+
+
 }
