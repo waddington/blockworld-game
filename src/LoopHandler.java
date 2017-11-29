@@ -6,9 +6,9 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class LoopHandler {
-	private long window;
+	private Window window;
 
-	LoopHandler(long window) {
+	LoopHandler(Window window) {
 		this.window = window;
 	}
 
@@ -41,7 +41,7 @@ public class LoopHandler {
 		double frameTime = 0;
 		int frames = 0;
 
-		while (!glfwWindowShouldClose(this.window)) {
+		while (!this.window.shouldClose()) {
 			boolean canRender = false;
 
 			double time2 = Timer.getTime();
@@ -76,7 +76,7 @@ public class LoopHandler {
 				textureTexture.bind(0);
 				model.render();
 
-				glfwSwapBuffers(this.window);
+				this.window.swapBuffers();
 				frames++;
 			}
 		}
