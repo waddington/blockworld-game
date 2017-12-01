@@ -133,4 +133,9 @@ public class Window {
 			}
 		});
 	}
+
+	public void update() {
+		this.input.update();
+		glfwPollEvents();
+	}
 }

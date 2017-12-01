@@ -58,11 +58,11 @@ public class LoopHandler {
 
 				target = scale;
 
-				if (this.window.getInput().isKeyDown(GLFW_KEY_ESCAPE)) {
+				if (this.window.getInput().isKeyPressed(GLFW_KEY_ESCAPE)) {
 					glfwSetWindowShouldClose(this.window.getWindow(), true);
 				}
 
-				glfwPollEvents();
+				this.window.update();
 
 				if (frameTime >= 1.0) {
 					frameTime = 0;
