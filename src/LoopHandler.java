@@ -1,6 +1,12 @@
+import io.Timer;
+import io.Window;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
+import render.Camera;
+import render.Model;
+import render.Shader;
+import render.Texture;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;

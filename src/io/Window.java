@@ -1,3 +1,5 @@
+package io;
+
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.system.MemoryStack;
@@ -16,7 +18,7 @@ public class Window {
 	private GLFWVidMode vidMode;
 	private Input input;
 
-	Window() {
+	public Window() {
 		setSize(640,480);
 		setFullscreen(false);
 	}

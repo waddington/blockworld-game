@@ -1,3 +1,5 @@
+package render;
+
 import org.lwjgl.BufferUtils;
 
 import javax.imageio.ImageIO;
