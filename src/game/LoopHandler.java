@@ -35,7 +35,7 @@ public class LoopHandler {
 		Model model = new Model(vertices, texture, indices);
 		Shader shader = new Shader("shader");
 
-		Texture textureTexture = new Texture("./res/smiley.png");
+		Texture textureTexture = new Texture("./res/test.png");
 		Matrix4f projection = new Matrix4f().ortho2D(-640/2, 640/2, -480/2, 480/2);
 		Matrix4f scale = new Matrix4f().translate(new Vector3f(100, 0, 0)).scale(320);
 		Matrix4f target = new Matrix4f();
