@@ -1,3 +1,4 @@
+import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.system.MemoryStack;
 
@@ -111,5 +112,14 @@ public class Window {
 
 	public void swapBuffers() {
 		glfwSwapBuffers(this.window);
+	}
+
+	public static void setCallbacks() {
+		glfwSetErrorCallback(new GLFWErrorCallback() {
+			@Override
+			public void invoke(int error, long description) {
+				throw new IllegalStateException(GLFWErrorCallback.getDescription(description));
+			}
+		});
 	}
 }

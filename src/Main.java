@@ -1,5 +1,3 @@
-import org.lwjgl.glfw.GLFWErrorCallback;
-
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -19,7 +17,7 @@ class Main {
 	}
 
 	private void init() {
-		GLFWErrorCallback.createPrint(System.err).set();
+		Window.setCallbacks();
 
 		if (!glfwInit()) {
 			throw new IllegalStateException("Unable to initialize GLFW.");
