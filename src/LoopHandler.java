@@ -57,6 +57,11 @@ public class LoopHandler {
 				canRender = true;
 
 				target = scale;
+
+				if (this.window.getInput().isKeyDown(GLFW_KEY_ESCAPE)) {
+					glfwSetWindowShouldClose(this.window.getWindow(), true);
+				}
+
 				glfwPollEvents();
 
 				if (frameTime >= 1.0) {

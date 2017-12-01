@@ -14,6 +14,7 @@ public class Window {
 	private boolean fullscreen;
 	private long primaryMonitor;
 	private GLFWVidMode vidMode;
+	private Input input;
 
 	Window() {
 		setSize(640,480);
@@ -57,6 +58,14 @@ public class Window {
 		this.fullscreen = fullscreen;
 	}
 
+	public Input getInput() {
+		return this.input;
+	}
+
+	public void setInput(Input input) {
+		this.input = input;
+	}
+
 	public void createWindow(String title) {
 		glfwDefaultWindowHints();
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
@@ -91,7 +100,9 @@ public class Window {
 			}
 		}
 
-		glfwSetKeyCallback(this.window, this::handleKeyPresses);
+//		glfwSetKeyCallback(this.window, this::handleKeyPresses);
+
+		this.input = new Input(this.window);
 
 		glfwMakeContextCurrent(this.window);
 		glfwSwapInterval(1);
@@ -99,12 +110,12 @@ public class Window {
 		glfwShowWindow(this.window);
 	}
 
-	private void handleKeyPresses(long window, int key, int scanCode, int action, int mods) {
-		// Exit on esc key release
-		if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-			glfwSetWindowShouldClose(window, true);
-		}
-	}
+//	private void handleKeyPresses(long window, int key, int scanCode, int action, int mods) {
+//		// Exit on esc key release
+//		if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
+//			glfwSetWindowShouldClose(window, true);
+//		}
+//	}
 
 	public boolean shouldClose() {
 		return glfwWindowShouldClose(this.window);
