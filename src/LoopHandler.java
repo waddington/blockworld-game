@@ -18,7 +18,7 @@ public class LoopHandler {
 		glClearColor(0, 0, 0, 0);
 		glEnable(GL_TEXTURE_2D);
 
-		Camera camera = new Camera(640, 480);
+		Camera camera = new Camera(this.window.getWidth(), this.window.getHeight());
 
 		float[] vertices = new float[] {-0.5f, 0.5f, 0, 0.5f, 0.5f, 0, 0.5f, -0.5f, 0, -0.5f, -0.5f, 0};
 		float[] texture = new float[] {0, 0, 1, 0, 1, 1, 0, 1,};
