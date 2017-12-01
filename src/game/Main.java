@@ -1,3 +1,5 @@
+package game;
+
 import io.Window;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;

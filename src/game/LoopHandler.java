@@ -1,3 +1,5 @@
+package game;
+
 import io.Timer;
 import io.Window;
 import org.joml.Matrix4f;
