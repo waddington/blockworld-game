@@ -2,16 +2,14 @@ package game;
 
 import io.Timer;
 import io.Window;
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
 import render.Camera;
 import render.Shader;
-import render.Texture;
 import world.TileRenderer;
+import world.World;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
+import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class LoopHandler {
@@ -29,15 +27,11 @@ public class LoopHandler {
 
 		Camera camera = new Camera(this.window.getWidth(), this.window.getHeight());
 		Shader shader = new Shader("shader");
-		Texture textureTexture = new Texture("./res/test.png");
 		TileRenderer tileRenderer = new TileRenderer();
 
-		Matrix4f projection = new Matrix4f().ortho2D(-640/2, 640/2, -480/2, 480/2);
-		Matrix4f scale = new Matrix4f().translate(new Vector3f(0, 0, 0)).scale(16);
-		Matrix4f target = new Matrix4f();
+		World world = new World();
 
-		projection.mul(scale, target);
-		camera.setPosition(new Vector3f(-100, 0, 0));
+		camera.setPosition(new Vector3f(0));
 
 		double frameCap = 1.0 / 60.0;
 		double time = Timer.getTime();
@@ -60,10 +54,22 @@ public class LoopHandler {
 				unprocessed -= frameCap;
 				canRender = true;
 
-				target = scale;
-
 				if (this.window.getInput().isKeyPressed(GLFW_KEY_ESCAPE)) {
 					glfwSetWindowShouldClose(this.window.getWindow(), true);
+				}
+
+				int moveSpeed = 5;
+
+				if (this.window.getInput().isKeyDown(GLFW_KEY_A)) {
+					camera.getPosition().sub(new Vector3f(-moveSpeed, 0, 0));
+				} else if (this.window.getInput().isKeyDown(GLFW_KEY_D)) {
+					camera.getPosition().sub(new Vector3f(moveSpeed, 0, 0));
+				}
+
+				if (this.window.getInput().isKeyDown(GLFW_KEY_W)) {
+					camera.getPosition().sub(new Vector3f(0, moveSpeed, 0));
+				} else if (this.window.getInput().isKeyDown(GLFW_KEY_S)) {
+					camera.getPosition().sub(new Vector3f(0, -moveSpeed, 0));
 				}
 
 				this.window.update();
@@ -79,11 +85,7 @@ public class LoopHandler {
 			if (canRender) {
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-				for (int i=0; i<8; i++) {
-					for (int j=0; j<4; j++) {
-						tileRenderer.renderTile((byte) 0, i, j, shader, scale, camera);
-					}
-				}
+				world.render(tileRenderer, shader, camera);
 
 				this.window.swapBuffers();
 				frames++;
