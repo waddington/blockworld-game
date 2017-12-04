@@ -7,7 +7,7 @@ import render.Camera;
 import render.Shader;
 
 public class World {
-	private final int view = 24;
+	private final int view = 22;
 	private int width;
 	private int height;
 	private int scale;
@@ -67,5 +67,9 @@ public class World {
 			position.y = (window.getHeight()/2) - scale;
 		if (position.y > h - (window.getHeight()/2) - scale)
 			position.y = h - (window.getHeight()/2) - scale;
+	}
+
+	public int getScale() {
+		return this.scale;
 	}
 }

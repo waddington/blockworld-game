@@ -1,8 +1,8 @@
 package game;
 
+import entity.Player;
 import io.Timer;
 import io.Window;
-import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
 import render.Camera;
 import render.Shader;
@@ -10,7 +10,8 @@ import world.Tile;
 import world.TileRenderer;
 import world.World;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.opengl.GL11.*;
 
 public class LoopHandler {
@@ -34,7 +35,9 @@ public class LoopHandler {
 		world.setTile(Tile.testTile2, 0, 0);
 		world.setTile(Tile.testTile2, 63, 63);
 
-		double frameCap = 1.0 / 60.0;
+		Player player = new Player();
+
+		double frameCap = 1.0 / 30.0;
 		double time = Timer.getTime();
 		double unprocessed = 0;
 		double frameTime = 0;
@@ -50,8 +53,6 @@ public class LoopHandler {
 
 			time = time2;
 
-			int moveSpeed = 5;
-
 			// Update code
 			while (unprocessed >= frameCap) {
 				unprocessed -= frameCap;
@@ -61,20 +62,8 @@ public class LoopHandler {
 					glfwSetWindowShouldClose(this.window.getWindow(), true);
 				}
 
-				if (this.window.getInput().isKeyDown(GLFW_KEY_A)) {
-					camera.getPosition().sub(new Vector3f(-moveSpeed, 0, 0));
-				} else if (this.window.getInput().isKeyDown(GLFW_KEY_D)) {
-					camera.getPosition().sub(new Vector3f(moveSpeed, 0, 0));
-				}
-
-				if (this.window.getInput().isKeyDown(GLFW_KEY_W)) {
-					camera.getPosition().sub(new Vector3f(0, moveSpeed, 0));
-				} else if (this.window.getInput().isKeyDown(GLFW_KEY_S)) {
-					camera.getPosition().sub(new Vector3f(0, -moveSpeed, 0));
-				}
-
-				world.correctCamera(camera, window);
-
+				player.update((float) frameCap, this.window, camera, world);
+				world.correctCamera(camera, this.window);
 				this.window.update();
 
 				if (frameTime >= 1.0) {
@@ -89,6 +78,7 @@ public class LoopHandler {
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 				world.render(tileRenderer, shader, camera, this.window);
+				player.render(shader, camera);
 
 				this.window.swapBuffers();
 				frames++;
