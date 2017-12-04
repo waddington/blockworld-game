@@ -6,11 +6,12 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
 import render.Camera;
-import render.Model;
 import render.Shader;
 import render.Texture;
+import world.TileRenderer;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.opengl.GL11.*;
 
 public class LoopHandler {
@@ -27,17 +28,12 @@ public class LoopHandler {
 		glEnable(GL_TEXTURE_2D);
 
 		Camera camera = new Camera(this.window.getWidth(), this.window.getHeight());
-
-		float[] vertices = new float[] {-0.5f, 0.5f, 0, 0.5f, 0.5f, 0, 0.5f, -0.5f, 0, -0.5f, -0.5f, 0};
-		float[] texture = new float[] {0, 0, 1, 0, 1, 1, 0, 1,};
-		int[] indices = new int[] {0, 1, 2, 2, 3, 0};
-
-		Model model = new Model(vertices, texture, indices);
 		Shader shader = new Shader("shader");
-
 		Texture textureTexture = new Texture("./res/test.png");
+		TileRenderer tileRenderer = new TileRenderer();
+
 		Matrix4f projection = new Matrix4f().ortho2D(-640/2, 640/2, -480/2, 480/2);
-		Matrix4f scale = new Matrix4f().translate(new Vector3f(100, 0, 0)).scale(320);
+		Matrix4f scale = new Matrix4f().translate(new Vector3f(0, 0, 0)).scale(16);
 		Matrix4f target = new Matrix4f();
 
 		projection.mul(scale, target);
@@ -83,11 +79,11 @@ public class LoopHandler {
 			if (canRender) {
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-				shader.bind();
-				shader.setUniform("sampler", 0);
-				shader.setUniform("projection", camera.getProjection().mul(target));
-				textureTexture.bind(0);
-				model.render();
+				for (int i=0; i<8; i++) {
+					for (int j=0; j<4; j++) {
+						tileRenderer.renderTile((byte) 0, i, j, shader, scale, camera);
+					}
+				}
 
 				this.window.swapBuffers();
 				frames++;

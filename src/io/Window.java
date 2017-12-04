@@ -102,8 +102,6 @@ public class Window {
 			}
 		}
 
-//		glfwSetKeyCallback(this.window, this::handleKeyPresses);
-
 		this.input = new Input(this.window);
 
 		glfwMakeContextCurrent(this.window);
@@ -111,13 +109,6 @@ public class Window {
 
 		glfwShowWindow(this.window);
 	}
-
-//	private void handleKeyPresses(long window, int key, int scanCode, int action, int mods) {
-//		// Exit on esc key release
-//		if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-//			glfwSetWindowShouldClose(window, true);
-//		}
-//	}
 
 	public boolean shouldClose() {
 		return glfwWindowShouldClose(this.window);
