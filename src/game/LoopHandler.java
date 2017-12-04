@@ -50,6 +50,8 @@ public class LoopHandler {
 
 			time = time2;
 
+			int moveSpeed = 1;
+
 			// Update code
 			while (unprocessed >= frameCap) {
 				unprocessed -= frameCap;
@@ -58,8 +60,6 @@ public class LoopHandler {
 				if (this.window.getInput().isKeyPressed(GLFW_KEY_ESCAPE)) {
 					glfwSetWindowShouldClose(this.window.getWindow(), true);
 				}
-
-				int moveSpeed = 5;
 
 				if (this.window.getInput().isKeyDown(GLFW_KEY_A)) {
 					camera.getPosition().sub(new Vector3f(-moveSpeed, 0, 0));
@@ -88,7 +88,7 @@ public class LoopHandler {
 			if (canRender) {
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-				world.render(tileRenderer, shader, camera);
+				world.render(tileRenderer, shader, camera, this.window);
 
 				this.window.swapBuffers();
 				frames++;

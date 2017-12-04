@@ -7,6 +7,7 @@ import render.Camera;
 import render.Shader;
 
 public class World {
+	private final int view = 24;
 	private int width;
 	private int height;
 	private int scale;
@@ -14,8 +15,8 @@ public class World {
 	private Matrix4f world;
 
 	public World() {
-		this.width = 64;
-		this.height = 64;
+		this.width = 640;
+		this.height = 640;
 		this.scale = 16;
 
 		this.tiles = new byte[this.width * this.height];
@@ -24,16 +25,31 @@ public class World {
 		this.world.scale(this.scale);
 	}
 
-	public void render(TileRenderer tileRenderer, Shader shader, Camera camera) {
-		for (int i=0; i<this.height; i++) {
-			for (int j=0; j<this.width; j++) {
-				tileRenderer.renderTile(this.tiles[j+(i*this.width)], j, -i, shader, this.world, camera);
+	public void render(TileRenderer tileRenderer, Shader shader, Camera camera, Window window) {
+		int posX = ((int) camera.getPosition().x + (window.getWidth()/2)) / (this.scale * 2);
+		int posY = ((int) camera.getPosition().y - (window.getWidth()/2)) / (this.scale * 2);
+
+		for (int i=0; i<this.view; i++) {
+			for (int j=0; j<this.view; j++) {
+				Tile tile = getTile(i-posX, j+posY);
+
+				if (tile != null) {
+					tileRenderer.renderTile(tile, i-posX, -j-posY, shader, this.world, camera);
+				}
 			}
 		}
 	}
 
 	public void setTile(Tile tile, int x, int y) {
 		this.tiles[x + (y*this.width)] = tile.getId();
+	}
+
+	public Tile getTile(int x, int y) {
+		try {
+			return Tile.tiles[this.tiles[x + (y*this.width)]];
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
 	}
 
 	public void correctCamera(Camera camera, Window window) {

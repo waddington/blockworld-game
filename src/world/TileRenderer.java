@@ -34,11 +34,11 @@ public class TileRenderer {
 		}
 	}
 
-	public void renderTile(byte id, int x, int y, Shader shader, Matrix4f world, Camera camera) {
+	public void renderTile(Tile tile, int x, int y, Shader shader, Matrix4f world, Camera camera) {
 		shader.bind();
 
-		if (this.tileTextures.containsKey(Tile.tiles[id].getTexture())) {
-			this.tileTextures.get(Tile.tiles[id].getTexture()).bind(0);
+		if (this.tileTextures.containsKey(tile.getTexture())) {
+			this.tileTextures.get(tile.getTexture()).bind(0);
 		}
 
 		Matrix4f tilePosition = new Matrix4f().translate(new Vector3f(x*2, y*2, 0));
