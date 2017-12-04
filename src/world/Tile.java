@@ -2,13 +2,15 @@ package world;
 
 public class Tile {
 	public static Tile tiles[] = new Tile[16];
-	public static final Tile testTile = new Tile((byte) 0, "test");
+	public static int numberOfTiles = 0;
+	public static final Tile testTile = new Tile("test");
+	public static final Tile testTile2 = new Tile("checker");
 
 	private byte id;
 	private String texture;
 
-	public Tile(byte id, String texture) {
-		this.id = id;
+	public Tile(String texture) {
+		this.id = (byte) numberOfTiles++;
 		this.texture = texture;
 
 		if (Tile.tiles[id] != null) {

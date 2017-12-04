@@ -6,6 +6,7 @@ import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
 import render.Camera;
 import render.Shader;
+import world.Tile;
 import world.TileRenderer;
 import world.World;
 
@@ -30,8 +31,8 @@ public class LoopHandler {
 		TileRenderer tileRenderer = new TileRenderer();
 
 		World world = new World();
-
-		camera.setPosition(new Vector3f(0));
+		world.setTile(Tile.testTile2, 0, 0);
+		world.setTile(Tile.testTile2, 63, 63);
 
 		double frameCap = 1.0 / 60.0;
 		double time = Timer.getTime();
@@ -71,6 +72,8 @@ public class LoopHandler {
 				} else if (this.window.getInput().isKeyDown(GLFW_KEY_S)) {
 					camera.getPosition().sub(new Vector3f(0, -moveSpeed, 0));
 				}
+
+				world.correctCamera(camera, window);
 
 				this.window.update();
 
