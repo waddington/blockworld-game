@@ -2,17 +2,14 @@ package entity;
 
 import io.Window;
 import org.joml.Vector3f;
-import render.Camera;
-import render.Model;
-import render.Shader;
-import render.Texture;
+import render.*;
 import world.World;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Player {
 	private Model model;
-	private Texture texture;
+	private Animation texture;
 	private Transform transform;
 	private int moveMultiplier = 15;
 
@@ -22,7 +19,7 @@ public class Player {
 		int[] indices = new int[] {0, 1, 2, 2, 3, 0};
 
 		this.model = new Model(vertices, texture, indices);
-		this.texture = new Texture("test.png");
+		this.texture = new Animation(5, 15, "an");
 
 		this.transform = new Transform();
 		this.transform.scale = new Vector3f(16,16,1);
