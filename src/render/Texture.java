@@ -64,4 +64,9 @@ public class Texture {
 			glBindTexture(GL_TEXTURE_2D, this.id);
 		}
 	}
+
+	protected void finalize() throws Throwable {
+		glDeleteTextures(this.id);
+		super.finalize();
+	}
 }

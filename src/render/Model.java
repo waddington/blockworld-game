@@ -67,4 +67,10 @@ public class Model {
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 	}
+
+	protected void finalize() {
+		glDeleteBuffers(this.vertexId);
+		glDeleteBuffers(this.textureId);
+		glDeleteBuffers(this.indicesId);
+	}
 }

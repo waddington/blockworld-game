@@ -50,7 +50,7 @@ public class LoopHandler {
 
 			time = time2;
 
-			int moveSpeed = 1;
+			int moveSpeed = 5;
 
 			// Update code
 			while (unprocessed >= frameCap) {

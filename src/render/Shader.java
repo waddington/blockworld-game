@@ -99,5 +99,13 @@ public class Shader {
 		}
 	}
 
+	protected void finalize() {
+		glDetachShader(this.program, this.vs);
+		glDetachShader(this.program, this.fs);
 
+		glDeleteShader(this.vs);
+		glDeleteShader(this.fs);
+
+		glDeleteProgram(this.program);
+	}
 }
