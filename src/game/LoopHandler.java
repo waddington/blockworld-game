@@ -32,8 +32,11 @@ public class LoopHandler {
 		TileRenderer tileRenderer = new TileRenderer();
 
 		World world = new World();
-		world.setTile(Tile.testTile2, 0, 0);
-		world.setTile(Tile.testTile2, 63, 63);
+		world.setTile(Tile.testTile2, 5, 0);
+		world.setTile(Tile.testTile2, 6, 0);
+		world.setTile(Tile.testTile2, 7, 0);
+		world.setTile(Tile.testTile2, 7, 1);
+		world.setTile(Tile.testTile2, 7, 2);
 
 		Player player = new Player();
 

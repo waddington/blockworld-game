@@ -1,7 +1,9 @@
 package world;
 
+import collision.AABB;
 import io.Window;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import render.Camera;
 import render.Shader;
@@ -13,6 +15,7 @@ public class World {
 	private int scale;
 	private byte[] tiles;
 	private Matrix4f world;
+	private AABB[] boundingBoxes;
 
 	public World() {
 		this.width = 64;
@@ -23,6 +26,8 @@ public class World {
 
 		this.world = new Matrix4f().setTranslation(new Vector3f(0));
 		this.world.scale(this.scale);
+
+		this.boundingBoxes = new AABB[this.width* this.height];
 	}
 
 	public void render(TileRenderer tileRenderer, Shader shader, Camera camera, Window window) {
@@ -42,11 +47,25 @@ public class World {
 
 	public void setTile(Tile tile, int x, int y) {
 		this.tiles[x + (y*this.width)] = tile.getId();
+
+		if (tile.isSolid()) {
+			this.boundingBoxes[x + (y * this.width)] = new AABB(new Vector2f(x*2, - y*2), new Vector2f(1,1));
+		} else {
+			this.boundingBoxes[x + (y * this.width)] = null;
+		}
 	}
 
 	public Tile getTile(int x, int y) {
 		try {
 			return Tile.tiles[this.tiles[x + (y*this.width)]];
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
+	}
+
+	public AABB getTileBoundingBox(int x, int y) {
+		try {
+			return this.boundingBoxes[x + (y * this.width)];
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return null;
 		}
