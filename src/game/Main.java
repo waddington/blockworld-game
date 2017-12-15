@@ -1,5 +1,6 @@
 package game;
 
+import entity.Entity;
 import io.Window;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -12,6 +13,8 @@ class Main {
 	private void run() {
 		init();
 		loop();
+
+		Entity.deleteAsset();
 
 		glfwFreeCallbacks(this.window.getWindow());
 		glfwDestroyWindow(this.window.getWindow());

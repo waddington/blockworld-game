@@ -1,6 +1,8 @@
 package game;
 
+import entity.Entity;
 import entity.Player;
+import entity.Transform;
 import io.Timer;
 import io.Window;
 import org.lwjgl.opengl.GL;
@@ -29,12 +31,11 @@ public class LoopHandler {
 		Camera camera = new Camera(this.window.getWidth(), this.window.getHeight());
 		Shader shader = new Shader("shader");
 		TileRenderer tileRenderer = new TileRenderer();
-
+		Entity.initAsset();
 		World world = new World("test_level");
+		Player player = new Player(new Transform());
 
-		Player player = new Player();
-
-		double frameCap = 1.0 / 60.0;
+		double frameCap = 1.0 / 30.0;
 		double time = Timer.getTime();
 		double unprocessed = 0;
 		double frameTime = 0;
@@ -75,7 +76,7 @@ public class LoopHandler {
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 				world.render(tileRenderer, shader, camera, this.window);
-				player.render(shader, camera);
+				player.render(shader, camera, world);
 
 				this.window.swapBuffers();
 				frames++;
