@@ -108,7 +108,6 @@ public class Player {
 
 		}
 
-//		camera.setPosition(this.transform.pos.mul(-world.getScale(), new Vector3f()));
 		camera.getPosition().lerp(this.transform.pos.mul(-world.getScale(), new Vector3f()), 0.2f);
 	}
 

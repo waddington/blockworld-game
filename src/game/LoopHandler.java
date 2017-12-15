@@ -6,7 +6,6 @@ import io.Window;
 import org.lwjgl.opengl.GL;
 import render.Camera;
 import render.Shader;
-import world.Tile;
 import world.TileRenderer;
 import world.World;
 
@@ -31,16 +30,11 @@ public class LoopHandler {
 		Shader shader = new Shader("shader");
 		TileRenderer tileRenderer = new TileRenderer();
 
-		World world = new World();
-		world.setTile(Tile.testTile2, 5, 0);
-		world.setTile(Tile.testTile2, 6, 0);
-		world.setTile(Tile.testTile2, 7, 0);
-		world.setTile(Tile.testTile2, 7, 1);
-		world.setTile(Tile.testTile2, 7, 2);
+		World world = new World("test_level");
 
 		Player player = new Player();
 
-		double frameCap = 1.0 / 30.0;
+		double frameCap = 1.0 / 60.0;
 		double time = Timer.getTime();
 		double unprocessed = 0;
 		double frameTime = 0;
